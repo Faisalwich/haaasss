@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>haaaaaassss</title>
+  </head>
+  <body>
+    <header>
+      <h1>How do you feel about me?</h1>
+      <p class="tagline">Express Yourself Anonymously</p>
+    </header>
+
+    <main>
+      <div class="question">
+        <input type="text" id="answer" placeholder="Jawab di sini..." />
+        <button onclick="submitAnswer()">Kirim Jawaban</button>
+      </div>
+
+      <div id="answers">
+        <!-- Jawaban akan ditampilkan di sini -->
+      </div>
+    </main>
+
+    <script>
+      // Fungsi untuk mendapatkan jawaban dari localStorage
+      function getAnswers() {
+        const storedAnswers = JSON.parse(localStorage.getItem("answers")) || [];
+        return storedAnswers;
+      }
+
+      // Fungsi untuk menyimpan jawaban ke localStorage
+      function saveAnswer(answer) {
+        const storedAnswers = getAnswers();
+        storedAnswers.push(answer);
+        localStorage.setItem("answers", JSON.stringify(storedAnswers));
+      }
+
+      // Fungsi untuk menampilkan jawaban yang tersimpan di localStorage
+      function displayAnswers() {
+        const storedAnswers = getAnswers();
+        const answersDiv = document.getElementById("answers");
+        answersDiv.innerHTML = "";
+
+        storedAnswers.forEach((answer) => {
+          const answerElement = document.createElement("p");
+          answerElement.textContent = `Jawaban: ${answer}`;
+          answersDiv.appendChild(answerElement);
+        });
+      }
+
+      // Memanggil fungsi displayAnswers saat halaman dimuat
+      displayAnswers();
+
+      // Fungsi untuk mengirim jawaban
+      function submitAnswer() {
+        const answerInput = document.getElementById("answer");
+        const answer = answerInput.value.trim(); // Menghilangkan spasi ekstra di awal dan akhir
+        if (answer !== "") {
+          saveAnswer(answer);
+          answerInput.value = "";
+          displayAnswers();
+        } else {
+          alert("Masukkan jawaban terlebih dahulu!");
+        }
+      }
+    </script>
+  </body>
+</html>
